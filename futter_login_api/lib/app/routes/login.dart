@@ -26,9 +26,13 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                      labelText: 'Email', suffixIcon: Icon(Icons.email)),
+                    labelText: 'Email Address',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  controller: emailController,
                 ),
                 SizedBox(
                   height: 15,
@@ -67,9 +71,6 @@ class LoginPage extends StatelessWidget {
 
   Future<void> login() async {
     if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      print('ok');
-      print(emailController.text);
-
       var url = "https://localhost:44330/api/auth/login";
       var response = await http.post(Uri.parse(url),
           headers: <String, String>{
@@ -79,7 +80,7 @@ class LoginPage extends StatelessWidget {
             "email": emailController.text,
             "password": passwordController.text
           }));
-      print(response.request);
+      print(response);
       if (response.statusCode == 200) {
         Get.to(HomePage());
       }
